@@ -24,21 +24,21 @@ func scan(host string, minPort, maxPort int) {
 		wg sync.WaitGroup
 	)
 
-	wg.Add(maxPort - minPort)
-	for i := minPort; i < maxPort; i++ {
+	wg.Add(maxPort - minPort+1)
+	for i := minPort; i <= maxPort; i++ {
 		go func(port int) {
 			addr := fmt.Sprintf("%s:%d", host, port)
 			conn, err := net.DialTimeout("tcp", addr, 1*time.Second)
 			if err != nil {
 				wg.Done()
-				fmt.Printf("Error: %v", err)
+				fmt.Printf("Error: %v\n", err)
 				return
 			}
 
 			wg.Done()
 			err = conn.Close()
 			if err != nil {
-				fmt.Println("Error: %v", err)
+				fmt.Println("Error: %v\n", err)
 			}
 
 			return
