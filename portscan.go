@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/fatih/color"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -31,14 +32,15 @@ func scan(host string, minPort, maxPort int) {
 			conn, err := net.DialTimeout("tcp", addr, 1*time.Second)
 			if err != nil {
 				wg.Done()
-				fmt.Printf("Error: %v\n", err)
+				color.Red(fmt.Sprintf("Port: %d - %v", port, err))
 				return
 			}
 
+			color.Green(fmt.Sprintf("Port: %d", port))
 			wg.Done()
 			err = conn.Close()
 			if err != nil {
-				fmt.Println("Error: %v\n", err)
+				color.Red(fmt.Sprintf("Port: %d - %v", port, err))
 			}
 
 			return
