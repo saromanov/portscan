@@ -25,7 +25,7 @@ func scan(host string, minPort, maxPort int) {
 		wg sync.WaitGroup
 	)
 
-	wg.Add(maxPort - minPort+1)
+	wg.Add(maxPort - minPort + 1)
 	for i := minPort; i <= maxPort; i++ {
 		go func(port int) {
 			addr := fmt.Sprintf("%s:%d", host, port)
@@ -35,7 +35,6 @@ func scan(host string, minPort, maxPort int) {
 				color.Red(fmt.Sprintf("Port: %d - %v", port, err))
 				return
 			}
-
 			color.Green(fmt.Sprintf("Port: %d", port))
 			wg.Done()
 			err = conn.Close()
